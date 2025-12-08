@@ -2,9 +2,9 @@ package Vista;
 
 import Controlador.ControladorInventario;
 import java.awt.Dimension;
+import javax.swing.JOptionPane;
 
 public class InterInventario extends javax.swing.JInternalFrame {
-
 
   public InterInventario() {
     initComponents();
@@ -23,8 +23,8 @@ public class InterInventario extends javax.swing.JInternalFrame {
   private void initComponents() {
 
     tituloInventario = new javax.swing.JLabel();
-    textoNum = new javax.swing.JLabel();
-    campoId = new javax.swing.JTextField();
+    textoNombre = new javax.swing.JLabel();
+    campoNombre = new javax.swing.JTextField();
     botonBuscar = new javax.swing.JButton();
 
     setClosable(true);
@@ -36,10 +36,10 @@ public class InterInventario extends javax.swing.JInternalFrame {
     tituloInventario.setText("Inventario");
     getContentPane().add(tituloInventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, -1));
 
-    textoNum.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    textoNum.setText("Numero de Inventario");
-    getContentPane().add(textoNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
-    getContentPane().add(campoId, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, -1));
+    textoNombre.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    textoNombre.setText("Nombre de Materia Prima");
+    getContentPane().add(textoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+    getContentPane().add(campoNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, -1));
 
     botonBuscar.setText("Buscar");
     botonBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -54,41 +54,38 @@ public class InterInventario extends javax.swing.JInternalFrame {
 
   private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
     try {
-      String idTexto = campoId.getText().trim();
-      if (idTexto.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingrese un ID");
+      String nombre = campoNombre.getText().trim(); // Cambia el nombre del campo
+      if (nombre.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese un nombre");
         return;
       }
 
-      int id = Integer.parseInt(idTexto);
       ControladorInventario controlador = new ControladorInventario();
-      Modelo.Inventario resultado = controlador.buscarId(id);
+      Modelo.Inventario resultado = controlador.buscarPorNombre(nombre);
 
       if (resultado != null) {
         javax.swing.JOptionPane.showMessageDialog(this,
                 "Encontrado: " + resultado.getNombre()
-                + "\nNumero de Compra " + resultado.getId_compra()
+                + "\nID Inventario: " + resultado.getId_inventario() // Mostrar el ID
+                + "\nNumero de Compra: " + resultado.getId_compra()
                 + "\nCantidad: " + resultado.getCantidad_disponible()
-                + resultado.getUnidad_medida()
+                + " " + resultado.getUnidad_medida()
                 + "\nPrecio: $" + resultado.getPrecio());
       } else {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "No se encontró ID: " + id);
+        JOptionPane.showMessageDialog(this,
+                "No se encontró: " + nombre);
       }
-
     } catch (Exception e) {
-      javax.swing.JOptionPane.showMessageDialog(this,
+      JOptionPane.showMessageDialog(this,
               "Error: " + e.getMessage());
     }
-
-
   }//GEN-LAST:event_botonBuscarActionPerformed
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton botonBuscar;
-  private javax.swing.JTextField campoId;
-  private javax.swing.JLabel textoNum;
+  private javax.swing.JTextField campoNombre;
+  private javax.swing.JLabel textoNombre;
   private javax.swing.JLabel tituloInventario;
   // End of variables declaration//GEN-END:variables
 }

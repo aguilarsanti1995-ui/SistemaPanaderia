@@ -1,5 +1,9 @@
 package Modelo;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Compras {
 
   private int id_compra;
@@ -9,6 +13,7 @@ public class Compras {
   private double sub_total;
   private double iva;
   private double total;
+  private List<DetalleCompra> detalles;
 
   public Compras() {
     this.id_compra = 0;
@@ -18,7 +23,38 @@ public class Compras {
     this.sub_total = 0;
     this.iva = 0;
     this.total = 0;
-    
+    this.detalles = new ArrayList<>();
+
+  }
+
+  public void agregarDetalle(DetalleCompra detalle) {
+    detalles.add(detalle);
+    calcularTotales();
+  }
+
+  public void eliminarDetalle(int index) {
+    if (index >= 0 && index < detalles.size()) {
+      detalles.remove(index);
+      calcularTotales();
+    }
+  }
+
+  public void calcularTotales() {
+    this.sub_total = 0;
+    for (DetalleCompra detalle : detalles) {
+      this.sub_total += detalle.getCosto();
+    }
+    this.iva = this.sub_total * 0.16;
+    this.total = this.sub_total + this.iva;
+  }
+
+  public List<DetalleCompra> getDetalles() {
+    return detalles;
+  }
+
+  public void setDetalles(List<DetalleCompra> detalles) {
+    this.detalles = detalles;
+    calcularTotales();
   }
 
   public int getId_compra() {

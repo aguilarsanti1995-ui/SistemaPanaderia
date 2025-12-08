@@ -5,14 +5,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ControladorInventario {
-  // 1. Buscar por ID
 
-  public Inventario buscarId(int id_inventario) throws Exception {
+  // 1. Buscar por nombre
+  public Inventario buscarPorNombre(String nombre) throws Exception {
     Connection cn = Conexion.Conexion.conectar();
-    PreparedStatement ps = cn.prepareStatement("SELECT * FROM inventario WHERE id_inventario = ?");
-    ps.setInt(1, id_inventario);
+    PreparedStatement ps = cn.prepareStatement(
+            "SELECT * FROM inventario WHERE nombre = ?");
+    ps.setString(1, nombre);
     ResultSet rs = ps.executeQuery();
 
     if (rs.next()) {
