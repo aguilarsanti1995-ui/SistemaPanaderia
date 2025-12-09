@@ -23,49 +23,76 @@ public class InterVentas extends javax.swing.JInternalFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
+    panelNorte = new javax.swing.JPanel();
+    jCheckBox1 = new javax.swing.JCheckBox();
     jLabel1 = new javax.swing.JLabel();
-    jLabel2 = new javax.swing.JLabel();
     jTextField1 = new javax.swing.JTextField();
+    jLabel2 = new javax.swing.JLabel();
+    jComboBox1 = new javax.swing.JComboBox<>();
     jLabel3 = new javax.swing.JLabel();
     jTextField2 = new javax.swing.JTextField();
     jLabel4 = new javax.swing.JLabel();
     jTextField3 = new javax.swing.JTextField();
+    jLabel5 = new javax.swing.JLabel();
+    panelSur = new javax.swing.JPanel();
+    panelCentro = new javax.swing.JPanel();
 
     setClosable(true);
     setIconifiable(true);
     setResizable(true);
-    getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-    jLabel1.setText("Nueva Venta");
-    getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+    panelNorte.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    jCheckBox1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    jCheckBox1.setText("Venta a cliente registrado");
+    panelNorte.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, -1, 30));
+
+    jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    jLabel1.setText("ID Cliente: ");
+    panelNorte.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+    panelNorte.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 180, -1));
 
     jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel2.setText("Producto: ");
-    getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, -1, -1));
-    getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 310, -1));
+    jLabel2.setText("Tipo de cliente:");
+    panelNorte.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+
+    jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+    panelNorte.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 180, -1));
 
     jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel3.setText("Cantidad: ");
-    getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
-    getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 90, -1));
+    jLabel3.setText("ID Empleado: ");
+    panelNorte.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, -1));
+    panelNorte.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 200, -1));
 
     jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel4.setText("Precio Unitario: ");
-    getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, -1, -1));
-    getContentPane().add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 90, -1));
+    jLabel4.setText("IVA");
+    panelNorte.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, -1, -1));
+    panelNorte.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 80, -1));
+
+    jLabel5.setText("Info de Descuento");
+    panelNorte.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, -1));
+
+    getContentPane().add(panelNorte, java.awt.BorderLayout.PAGE_START);
+    getContentPane().add(panelSur, java.awt.BorderLayout.PAGE_END);
+    getContentPane().add(panelCentro, java.awt.BorderLayout.CENTER);
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JCheckBox jCheckBox1;
+  private javax.swing.JComboBox<String> jComboBox1;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;
   private javax.swing.JLabel jLabel4;
+  private javax.swing.JLabel jLabel5;
   private javax.swing.JTextField jTextField1;
   private javax.swing.JTextField jTextField2;
   private javax.swing.JTextField jTextField3;
+  private javax.swing.JPanel panelCentro;
+  private javax.swing.JPanel panelNorte;
+  private javax.swing.JPanel panelSur;
   // End of variables declaration//GEN-END:variables
 }
