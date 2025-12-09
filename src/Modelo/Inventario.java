@@ -19,7 +19,8 @@ public class Inventario {
     
   }
  
-  public Inventario(int id_inventario, int id_compra, String nombre, String unidad_medida, double cantidad_disponible, double precio) {
+  public Inventario(int id_inventario, int id_compra, String nombre, String unidad_medida, 
+          double cantidad_disponible, double precio) {
     this.id_inventario = id_inventario;
     this.id_compra = id_compra;
     this.nombre = nombre;

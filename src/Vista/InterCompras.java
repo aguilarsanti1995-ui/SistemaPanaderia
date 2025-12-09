@@ -231,9 +231,9 @@ public class InterCompras extends javax.swing.JInternalFrame {
         return;
       }
 
-      double subtotal = Double.parseDouble(campoSubtotal.getText());
-      double iva = Double.parseDouble(campoIVA.getText());
-      double total = Double.parseDouble(campoTotal.getText());
+      double subtotal = Double.parseDouble(campoSubtotal.getText().replace(",", ""));
+      double iva = Double.parseDouble(campoIVA.getText().replace(",", ""));
+      double total = Double.parseDouble(campoTotal.getText().replace(",", ""));
 
       // 4. Crear objeto Compra
       Modelo.Compras nuevaCompra = new Modelo.Compras();
@@ -334,145 +334,99 @@ public class InterCompras extends javax.swing.JInternalFrame {
 
   private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
     try {
-      // 1. Obtener valores de los campos
-      String nombreIngrediente = campoIngrediente.getText().trim();
+      // 1. Obtener datos del formulario
+      String ingredienteNombre = campoIngrediente.getText().trim();
       String cantidadStr = campoCantidad.getText().trim();
-      String precioStr = campoPrecio.getText().trim();
       String unidad = comboUnidades.getSelectedItem().toString();
+      String precioStr = campoPrecio.getText().trim();
 
-      // 2. Validar campos vacíos
-      if (nombreIngrediente.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Ingrese el nombre del ingrediente",
+      // 2. Validaciones
+      if (ingredienteNombre.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese el nombre del ingrediente",
                 "Campo requerido", JOptionPane.WARNING_MESSAGE);
         campoIngrediente.requestFocus();
         return;
       }
 
       if (cantidadStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Ingrese la cantidad",
+        JOptionPane.showMessageDialog(this, "Ingrese la cantidad",
                 "Campo requerido", JOptionPane.WARNING_MESSAGE);
         campoCantidad.requestFocus();
         return;
       }
 
       if (precioStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this,
-                "Ingrese el precio unitario",
+        JOptionPane.showMessageDialog(this, "Ingrese el precio unitario",
                 "Campo requerido", JOptionPane.WARNING_MESSAGE);
         campoPrecio.requestFocus();
         return;
       }
 
-      // 3. Convertir valores numéricos
+      // 3. Convertir valores
       double cantidad = Double.parseDouble(cantidadStr);
-      double precioUnitario = Double.parseDouble(precioStr);
-
-      if (cantidad <= 0 || precioUnitario <= 0) {
-        JOptionPane.showMessageDialog(this,
-                "Cantidad y precio deben ser mayores a cero",
-                "Valores inválidos", JOptionPane.WARNING_MESSAGE);
-        return;
-      }
-
-      // 4. Calcular costo
+      double precioUnitario = Double.parseDouble(precioStr.replace(",", ""));
       double costo = cantidad * precioUnitario;
 
-      // 5. Buscar ID del ingrediente en la base de datos
-      Controlador.ControladorInventario ctrl = new Controlador.ControladorInventario();
-      Modelo.Inventario ingrediente = ctrl.buscarPorNombre(nombreIngrediente);
+      // 4. BUSCAR EL ID DEL INGREDIENTE EN LA BASE DE DATOS
+      Controlador.ControladorInventario ctrlInventario = new Controlador.ControladorInventario();
+      int idIngrediente = ctrlInventario.buscarIdPorNombre(ingredienteNombre);
 
-      int idIngrediente = 0;
-      String nombreMostrar = nombreIngrediente;
-
-      if (ingrediente != null) {
-        // Ingrediente existe en inventario
-        idIngrediente = ingrediente.getId_inventario();
-        nombreMostrar = ingrediente.getNombre();
-
-        // Sugerir la unidad del inventario si está vacía
-        if (unidad.isEmpty() && !ingrediente.getUnidad_medida().isEmpty()) {
-          comboUnidades.setSelectedItem(ingrediente.getUnidad_medida());
-        }
-      } else {
-        // Ingrediente no existe - preguntar si crear
+      if (idIngrediente <= 0) {
+        // Si no existe, preguntar si se desea crear
         int opcion = JOptionPane.showConfirmDialog(this,
-                "El ingrediente '" + nombreIngrediente + "' no existe en inventario.\n"
-                + "¿Desea agregarlo ahora?",
-                "Ingrediente no encontrado", JOptionPane.YES_NO_OPTION);
+                "El ingrediente '" + ingredienteNombre + "' no existe.\n¿Desea crearlo?",
+                "Ingrediente no encontrado", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
 
         if (opcion == JOptionPane.YES_OPTION) {
-          // Crear ingrediente temporal (ID = 0)
-          idIngrediente = 0;
-        } else {
-          return; // No agregar a la tabla
-        }
-      }
+          // Crear nuevo ingrediente
+          Modelo.Inventario nuevoIngrediente = new Modelo.Inventario();
+          nuevoIngrediente.setNombre(ingredienteNombre);
+          nuevoIngrediente.setId_compra(0);
+          nuevoIngrediente.setUnidad_medida(unidad);
+          nuevoIngrediente.setCantidad_disponible(0.0); // Iniciar con 0
+          nuevoIngrediente.setPrecio(precioUnitario);
 
-      // 6. Agregar fila a la tabla
-      DefaultTableModel modelo = (DefaultTableModel) tablaIngredientes.getModel();
+          idIngrediente = ctrlInventario.agregarInventario(nuevoIngrediente);
 
-      // Verificar si el ingrediente ya está en la tabla
-      for (int i = 0; i < modelo.getRowCount(); i++) {
-        String ingredienteEnTabla = modelo.getValueAt(i, 1).toString();
-        if (ingredienteEnTabla.equalsIgnoreCase(nombreMostrar)) {
-          int respuesta = JOptionPane.showConfirmDialog(this,
-                  "El ingrediente '" + nombreMostrar + "' ya está en la lista.\n"
-                  + "¿Desea sumar la cantidad?",
-                  "Ingrediente duplicado", JOptionPane.YES_NO_OPTION);
-
-          if (respuesta == JOptionPane.YES_OPTION) {
-            // Sumar cantidad y actualizar costo
-            double cantidadExistente = (double) modelo.getValueAt(i, 2);
-            double precioExistente = (double) modelo.getValueAt(i, 4);
-            double nuevaCantidad = cantidadExistente + cantidad;
-            double nuevoCosto = nuevaCantidad * precioExistente;
-
-            modelo.setValueAt(nuevaCantidad, i, 2);
-            modelo.setValueAt(nuevoCosto, i, 5);
-
-            // Limpiar campos
-            limpiarCamposIngrediente();
-
-            // Actualizar totales
-            calcularTotales();
+          if (idIngrediente <= 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al crear el ingrediente",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
-          } else {
-            return; // No agregar
           }
+        } else {
+          return; // Usuario canceló
         }
       }
 
-      // Agregar nueva fila
+      // 5. Agregar a la tabla
+      DefaultTableModel modelo = (DefaultTableModel) tablaIngredientes.getModel();
       modelo.addRow(new Object[]{
         idIngrediente,
-        nombreMostrar,
+        ingredienteNombre,
         cantidad,
         unidad,
         precioUnitario,
         costo
       });
 
-      // 7. Limpiar campos de entrada
-      limpiarCamposIngrediente();
-
-      // 8. Actualizar totales
-      calcularTotales();
-
-      // 9. Poner foco en el campo de nombre para nuevo ingrediente
+      // 6. Limpiar campos
+      campoIngrediente.setText("");
+      campoCantidad.setText("");
+      campoPrecio.setText("");
       campoIngrediente.requestFocus();
+
+      // 7. Actualizar totales
+      calcularTotales();
 
     } catch (NumberFormatException e) {
       JOptionPane.showMessageDialog(this,
-              "Cantidad y precio deben ser valores numéricos válidos\n"
-              + "Ejemplo: 50.5 o 100",
+              "Error en formato numérico: " + e.getMessage(),
               "Error de formato", JOptionPane.ERROR_MESSAGE);
-      campoCantidad.requestFocus();
-
     } catch (Exception e) {
       JOptionPane.showMessageDialog(this,
-              "Error al agregar ingrediente:\n" + e.getMessage(),
+              "Error al agregar ingrediente: " + e.getMessage(),
               "Error", JOptionPane.ERROR_MESSAGE);
       e.printStackTrace();
     }

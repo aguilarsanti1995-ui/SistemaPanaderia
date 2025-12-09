@@ -22,7 +22,7 @@ public class Conexion {
       String usuario = "root";
       String password = "Jias1993.A";
 
-            // 3. Establecer conexión
+      // 3. Establecer conexión
       cn = (Connection) DriverManager.getConnection(url, usuario, password);
 
       // Verificar conexión

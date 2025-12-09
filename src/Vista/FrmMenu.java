@@ -126,6 +126,11 @@ public class FrmMenu extends javax.swing.JFrame {
     menuVentas.setPreferredSize(new java.awt.Dimension(90, 40));
 
     jMenuItem13.setText("Nueva Venta");
+    jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem13ActionPerformed(evt);
+      }
+    });
     menuVentas.add(jMenuItem13);
 
     jMenuItem12.setText("Gestionar Ventas");
@@ -203,6 +208,12 @@ public class FrmMenu extends javax.swing.JFrame {
     jDesktopPane_menu.add(interCompras);
     interCompras.setVisible(true);
   }//GEN-LAST:event_nuevaCompraActionPerformed
+
+  private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+    InterVentas interVentas = new InterVentas();
+    jDesktopPane_menu.add(interVentas);
+    interVentas.setVisible(true);
+  }//GEN-LAST:event_jMenuItem13ActionPerformed
 
   
 

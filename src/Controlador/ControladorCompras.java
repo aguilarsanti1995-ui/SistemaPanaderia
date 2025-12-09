@@ -63,14 +63,16 @@ public class ControladorCompras {
       // 3. Actualizar el inventario con las nuevas cantidades
       String sqlActualizarInventario = "UPDATE inventario SET "
               + "cantidad_disponible = cantidad_disponible + ?, "
-              + "precio = ? WHERE id_inventario = ?";
+              + "precio = ?, "
+              + "Id_compra = ? WHERE Id_inventario = ?"; // ← AÑADIR Id_compra
 
       PreparedStatement psInventario = cn.prepareStatement(sqlActualizarInventario);
 
       for (DetalleCompra detalle : compra.getDetalles()) {
         psInventario.setDouble(1, detalle.getCantidad());
         psInventario.setDouble(2, detalle.getPrecio());
-        psInventario.setInt(3, detalle.getId_inventario());
+        psInventario.setInt(3, idCompraGenerado);
+        psInventario.setInt(4, detalle.getId_inventario());
         psInventario.addBatch();
       }
 
