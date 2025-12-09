@@ -1,6 +1,11 @@
 package Vista;
 
 import java.awt.Dimension;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class InterVentas extends javax.swing.JInternalFrame {
 
@@ -9,6 +14,7 @@ public class InterVentas extends javax.swing.JInternalFrame {
    */
   public InterVentas() {
     initComponents();
+    configurarTablaProductos();
     this.setSize(new Dimension(800, 600));
     this.setTitle("Ventas");
 
@@ -24,18 +30,27 @@ public class InterVentas extends javax.swing.JInternalFrame {
   private void initComponents() {
 
     panelNorte = new javax.swing.JPanel();
-    jCheckBox1 = new javax.swing.JCheckBox();
+    clienteRegistrado = new javax.swing.JCheckBox();
+    idCliente = new javax.swing.JLabel();
+    campoIdCiente = new javax.swing.JTextField();
+    tipoCliente = new javax.swing.JLabel();
+    campoTipoCliente = new javax.swing.JComboBox<>();
+    idEmpleado = new javax.swing.JLabel();
+    campoIdEmpleado = new javax.swing.JTextField();
+    textiva = new javax.swing.JLabel();
+    campoIva = new javax.swing.JTextField();
+    panelSur = new javax.swing.JPanel();
+    scrollDetalle = new javax.swing.JScrollPane();
+    tablaDetalle = new javax.swing.JTable();
+    panelCentro = new javax.swing.JPanel();
     jLabel1 = new javax.swing.JLabel();
     jTextField1 = new javax.swing.JTextField();
+    jButton1 = new javax.swing.JButton();
     jLabel2 = new javax.swing.JLabel();
-    jComboBox1 = new javax.swing.JComboBox<>();
-    jLabel3 = new javax.swing.JLabel();
     jTextField2 = new javax.swing.JTextField();
-    jLabel4 = new javax.swing.JLabel();
+    jLabel3 = new javax.swing.JLabel();
     jTextField3 = new javax.swing.JTextField();
-    jLabel5 = new javax.swing.JLabel();
-    panelSur = new javax.swing.JPanel();
-    panelCentro = new javax.swing.JPanel();
+    jButton2 = new javax.swing.JButton();
 
     setClosable(true);
     setIconifiable(true);
@@ -43,37 +58,77 @@ public class InterVentas extends javax.swing.JInternalFrame {
 
     panelNorte.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-    jCheckBox1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jCheckBox1.setText("Venta a cliente registrado");
-    panelNorte.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, -1, 30));
+    clienteRegistrado.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    clienteRegistrado.setText("Venta a cliente registrado");
+    panelNorte.add(clienteRegistrado, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, -1, 30));
 
-    jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel1.setText("ID Cliente: ");
-    panelNorte.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
-    panelNorte.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 180, -1));
+    idCliente.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    idCliente.setText("ID Cliente: ");
+    panelNorte.add(idCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
+    panelNorte.add(campoIdCiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 180, -1));
 
-    jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel2.setText("Tipo de cliente:");
-    panelNorte.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+    tipoCliente.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    tipoCliente.setText("Tipo de cliente:");
+    panelNorte.add(tipoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
-    jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-    panelNorte.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 180, -1));
+    campoTipoCliente.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+    campoTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Minorista ", "Mayorista " }));
+    panelNorte.add(campoTipoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 180, -1));
 
-    jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel3.setText("ID Empleado: ");
-    panelNorte.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, -1));
-    panelNorte.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 200, -1));
+    idEmpleado.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    idEmpleado.setText("ID Empleado: ");
+    panelNorte.add(idEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, -1, -1));
+    panelNorte.add(campoIdEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 40, 200, -1));
 
-    jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-    jLabel4.setText("IVA");
-    panelNorte.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, -1, -1));
-    panelNorte.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 80, -1));
-
-    jLabel5.setText("Info de Descuento");
-    panelNorte.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, -1, -1));
+    textiva.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    textiva.setText("IVA: ");
+    panelNorte.add(textiva, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 90, -1, -1));
+    panelNorte.add(campoIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, 80, -1));
 
     getContentPane().add(panelNorte, java.awt.BorderLayout.PAGE_START);
+
+    panelSur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    tablaDetalle.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null},
+        {null, null, null, null}
+      },
+      new String [] {
+        "Title 1", "Title 2", "Title 3", "Title 4"
+      }
+    ));
+    scrollDetalle.setViewportView(tablaDetalle);
+
+    panelSur.add(scrollDetalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 300));
+
     getContentPane().add(panelSur, java.awt.BorderLayout.PAGE_END);
+
+    panelCentro.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    jLabel1.setText("ID Producto: ");
+    panelCentro.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, -1, -1));
+    panelCentro.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 210, -1));
+
+    jButton1.setText("Buscar");
+    panelCentro.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 90, 30));
+
+    jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    jLabel2.setText("Cantidad: ");
+    panelCentro.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
+    panelCentro.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 200, -1));
+
+    jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+    jLabel3.setText("Precio Unitario: ");
+    panelCentro.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, 20));
+    panelCentro.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, 220, -1));
+
+    jButton2.setText("Agregar Producto");
+    panelCentro.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 170, 150, 30));
+
     getContentPane().add(panelCentro, java.awt.BorderLayout.CENTER);
 
     pack();
@@ -81,18 +136,65 @@ public class InterVentas extends javax.swing.JInternalFrame {
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JCheckBox jCheckBox1;
-  private javax.swing.JComboBox<String> jComboBox1;
+  private javax.swing.JTextField campoIdCiente;
+  private javax.swing.JTextField campoIdEmpleado;
+  private javax.swing.JTextField campoIva;
+  private javax.swing.JComboBox<String> campoTipoCliente;
+  private javax.swing.JCheckBox clienteRegistrado;
+  private javax.swing.JLabel idCliente;
+  private javax.swing.JLabel idEmpleado;
+  private javax.swing.JButton jButton1;
+  private javax.swing.JButton jButton2;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;
-  private javax.swing.JLabel jLabel4;
-  private javax.swing.JLabel jLabel5;
   private javax.swing.JTextField jTextField1;
   private javax.swing.JTextField jTextField2;
   private javax.swing.JTextField jTextField3;
   private javax.swing.JPanel panelCentro;
   private javax.swing.JPanel panelNorte;
   private javax.swing.JPanel panelSur;
+  private javax.swing.JScrollPane scrollDetalle;
+  private javax.swing.JTable tablaDetalle;
+  private javax.swing.JLabel textiva;
+  private javax.swing.JLabel tipoCliente;
   // End of variables declaration//GEN-END:variables
+
+  
+  private void configurarTablaProductos() {
+    // 1. Definir nombres de columnas (personalízalos según necesites)
+    String[] nombresColumnas = {"ID Producto", "Descripción", "Cantidad", "Precio Unitario", "Subtotal"};
+
+    // 2. Crear el modelo de tabla
+    DefaultTableModel modelo = new DefaultTableModel(nombresColumnas, 0) {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        // Hacer que solo ciertas columnas sean editables (por ejemplo, solo Cantidad)
+        return column == 2; // Solo la columna 2 (Cantidad) es editable
+      }
+    };
+
+    // 3. Asignar el modelo a la tabla
+    tablaDetalle.setModel(modelo); // Cambia "jTable1" por el nombre de tu tabla
+
+    // 4. Configurar anchos de columnas (opcional)
+    tablaDetalle.getColumnModel().getColumn(0).setPreferredWidth(80);   // ID Producto
+    tablaDetalle.getColumnModel().getColumn(1).setPreferredWidth(250);  // Descripción
+    tablaDetalle.getColumnModel().getColumn(2).setPreferredWidth(60);   // Cantidad
+    tablaDetalle.getColumnModel().getColumn(3).setPreferredWidth(80);   // Precio Unitario
+    tablaDetalle.getColumnModel().getColumn(4).setPreferredWidth(80);   // Subtotal
+
+    // 5. Configurar alineación (opcional)
+    DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+    tablaDetalle.getColumnModel().getColumn(2).setCellRenderer(rightRenderer); // Cantidad
+    tablaDetalle.getColumnModel().getColumn(3).setCellRenderer(rightRenderer); // Precio
+    tablaDetalle.getColumnModel().getColumn(4).setCellRenderer(rightRenderer); // Subtotal
+
+
+    // 6. Configurar editor para cantidad (opcional)
+    tablaDetalle.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(new JTextField()));
+  }
+
 }
